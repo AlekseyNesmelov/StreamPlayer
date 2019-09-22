@@ -12,7 +12,7 @@ import ru.leksiinesm.service.MediaPlayerService
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var serviceConnection: ServiceConnection
+    private var serviceConnection = MediaPlayerServiceConnection()
 
     private var isServiceBound = false
     private var playerService: MediaPlayerService? = null
@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        serviceConnection = MediaPlayerServiceConnection()
 
         fab.setOnClickListener {
             if (isServiceBound) {
@@ -38,21 +36,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if (isServiceBound) {
-            unbindService(serviceConnection)
-            isServiceBound = false
-        }
+        unbindService()
     }
 
     private fun triggerPlay() {
-        playerService?.setSource(COMEDY_RADIO_URL)
         if (playerService!!.isStarted()) {
             playerService?.stop()
+            unbindService()
+        } else {
+            playerService?.start(COMEDY_RADIO_URL)
+        }
+    }
+
+    private fun unbindService() {
+        if (isServiceBound) {
             unbindService(serviceConnection)
             isServiceBound = false
-        } else {
-            playerService?.start()
-            isServiceBound = true
         }
     }
 
@@ -61,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as MediaPlayerService.LocalBinder
             playerService = binder.getService()
+            isServiceBound = true
             triggerPlay()
         }
 
