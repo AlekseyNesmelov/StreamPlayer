@@ -11,6 +11,9 @@ android {
         targetSdkVersion TARGET_SDK_VERSION
         versionCode VERSION_CODE
         versionName VERSION_NAME
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
@@ -20,20 +23,15 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 dependencies {
-    implementation project(':corelib')
+    api kotlinLibs.std
 
-    implementation libs.exoPlayerCore
-    implementation libs.exoPlayerStreaming
+    api androidx.appcompat
+    api androidx.coreKtx
 
-    annotationProcessor libs.daggerCompiler
-}
-repositories {
-    mavenCentral()
+    api libs.rxJava
+    api libs.rxAndroid
+    api libs.dagger
 }
