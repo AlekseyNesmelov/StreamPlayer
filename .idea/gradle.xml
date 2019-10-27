@@ -9,9 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/backgroundlib" />
-            <option value="$PROJECT_DIR$/corelib" />
-            <option value="$PROJECT_DIR$/playerlib" />
+            <option value="$PROJECT_DIR$/lib-background" />
+            <option value="$PROJECT_DIR$/lib-core" />
+            <option value="$PROJECT_DIR$/lib-player" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

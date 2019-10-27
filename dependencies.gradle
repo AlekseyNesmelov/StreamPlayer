@@ -16,6 +16,8 @@ def JUNIT_VERSION = '4.12'
 
 def EXO_PLAYER_VERSION = '2.10.5'
 
+def LIFE_CYCLE_EXT_VERSION = '1.1.1'
+
 // endregion
 
 // region libs versions
@@ -49,6 +51,10 @@ ext {
             // region exo player
             exoPlayerCore: "com.google.android.exoplayer:exoplayer-core:$EXO_PLAYER_VERSION",
             exoPlayerStreaming: "com.google.android.exoplayer:exoplayer-smoothstreaming:$EXO_PLAYER_VERSION",
+            // endregion
+
+            // region arch
+            lifecycle: "android.arch.lifecycle:extensions:$LIFE_CYCLE_EXT_VERSION"
             // endregion
     ]
 

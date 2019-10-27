@@ -28,9 +28,9 @@ android {
 }
 
 dependencies {
-    implementation project(':corelib')
-    implementation project(':backgroundlib')
-    implementation project(':playerlib')
+    implementation project(':lib-core')
+    implementation project(':lib-background')
+    implementation project(':lib-player')
 
     implementation libs.material
 
