@@ -1,4 +1,4 @@
-package com.example.corelib
+package ru.leksiinesm.core
 
 import org.junit.Assert.*
 import org.junit.Test

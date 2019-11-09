@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.leksiinesm.player.presentation.PlayerViewModel" />
+    </data>
+
+    <ImageButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="center"
+        android:onClick="@{view -> viewModel.clickPlay()}"
+        app:srcCompat="@android:drawable/ic_media_play"/>
+
+</layout>
