@@ -11,19 +11,19 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-
 /**
  * Default implementation of [StreamPlayer]
  *
  * @author Alexey Nesmelov
  */
-class StreamPlayerImpl(context: Context) : StreamPlayer {
-
-    private val exoPlayer: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context)
-    private val dataSourceFactory = DefaultDataSourceFactory(
+class StreamPlayerImpl @JvmOverloads constructor(
+    private val context: Context,
+    private val exoPlayer: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context),
+    private val dataSourceFactory: DefaultDataSourceFactory = DefaultDataSourceFactory(
         context,
         Util.getUserAgent(context, APP_NAME)
     )
+) : StreamPlayer {
     private var dataSource: String? = null
 
     init {

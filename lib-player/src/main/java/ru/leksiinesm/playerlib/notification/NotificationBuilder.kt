@@ -1,4 +1,4 @@
-package ru.leksiinesm.notification
+package ru.leksiinesm.playerlib.notification
 
 import android.app.Notification
 import android.content.Context

@@ -8,14 +8,14 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.leksiinesm.service.MediaPlayerService
+import ru.leksiinesm.playerlib.IMediaService
+import ru.leksiinesm.playerlib.service.MediaPlayerService
 
 class MainActivity : AppCompatActivity() {
 
     private var serviceConnection = MediaPlayerServiceConnection()
 
-    private var isServiceBound = false
-    private var playerService: MediaPlayerService? = null
+    private var playerService: IMediaService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener {
-            if (isServiceBound) {
+            if (playerService != null) {
                 triggerPlay()
             } else {
                 Intent(this, MediaPlayerService::class.java).also { intent ->
@@ -40,7 +40,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun triggerPlay() {
-        if (playerService!!.isStarted()) {
+        if (playerService == null) {
+            return
+        }
+        if (playerService!!.isPlaying) {
             playerService?.stop()
             unbindService()
         } else {
@@ -49,23 +52,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun unbindService() {
-        if (isServiceBound) {
+        if (playerService != null) {
             unbindService(serviceConnection)
-            isServiceBound = false
+            playerService = null
         }
     }
 
     inner class MediaPlayerServiceConnection : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            val binder = service as MediaPlayerService.LocalBinder
-            playerService = binder.getService()
-            isServiceBound = true
+            playerService = IMediaService.Stub.asInterface(service)
             triggerPlay()
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
-            isServiceBound = false
+            playerService = null
         }
     }
 

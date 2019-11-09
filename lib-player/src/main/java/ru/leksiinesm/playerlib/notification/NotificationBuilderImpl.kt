@@ -1,4 +1,4 @@
-package ru.leksiinesm.notification
+package ru.leksiinesm.playerlib.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,7 +13,10 @@ class NotificationBuilderImpl : NotificationBuilder {
     override fun build(context: Context): Notification {
         val channelId =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel(context, CHANNEL_ID, CHANNEL_NAME)
+                createNotificationChannel(context,
+                    CHANNEL_ID,
+                    CHANNEL_NAME
+                )
             } else {
                 EMPTY_CHANNEL_ID
             }

@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation project(':lib-core')
-    implementation project(':lib-background')
     implementation project(':lib-player')
 
     implementation libs.material
