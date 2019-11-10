@@ -12,10 +12,11 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
 /**
- * Default implementation of [StreamPlayer]
+ * Default implementation of [StreamPlayer].
  *
  * @author Alexey Nesmelov
  */
+// TODO: draft
 class StreamPlayerImpl @JvmOverloads constructor(
     private val context: Context,
     private val exoPlayer: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context),

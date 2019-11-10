@@ -9,9 +9,18 @@ import io.reactivex.Scheduler
  */
 interface RxSchedulers {
 
+    /**
+     * Main thread scheduler.
+     */
     val mainThread: Scheduler
 
+    /**
+     * Simple thread scheduler.
+     */
     val io: Scheduler
 
+    /**
+     * Scheduler for computation.
+     */
     val computation: Scheduler
 }

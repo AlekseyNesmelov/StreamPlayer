@@ -2,12 +2,16 @@ package ru.leksiinesm.playerlib.notification
 
 import android.app.Notification
 import android.content.Context
-import androidx.annotation.RequiresApi
 
+/**
+ * Builder for notifications.
+ *
+ * @author Alexey Nesmelov
+ */
 interface NotificationBuilder {
 
-    fun build(context: Context) : Notification
-
-    @RequiresApi(value = 26)
-    fun createNotificationChannel(context: Context, channelId: String, channelName: String): String
+    /**
+     * Build player notification using [context]
+     */
+    fun build(context: Context): Notification
 }

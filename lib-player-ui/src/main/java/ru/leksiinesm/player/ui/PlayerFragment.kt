@@ -15,6 +15,7 @@ import ru.leksiinesm.player.domain.PlayerInteractorImpl
 import ru.leksiinesm.player.presentation.PlayerViewModel
 import ru.leksiinesm.player.presentation.factory.PlayerViewModelFactory
 
+// TODO draft
 class PlayerFragment : Fragment() {
 
     private lateinit var interactor: PlayerInteractor

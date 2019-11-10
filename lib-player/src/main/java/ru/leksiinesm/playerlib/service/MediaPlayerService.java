@@ -12,6 +12,7 @@ import ru.leksiinesm.playerlib.player.StreamPlayerImpl;
 /**
  * Service for music stream playing
  */
+// TODO draft
 public class MediaPlayerService extends Service {
 
     private static final int FOREGROUND_ID = 1222;

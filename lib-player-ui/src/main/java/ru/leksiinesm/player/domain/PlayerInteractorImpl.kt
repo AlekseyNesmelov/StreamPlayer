@@ -8,6 +8,7 @@ import android.os.IBinder
 import ru.leksiinesm.playerlib.IMediaService
 import ru.leksiinesm.playerlib.service.MediaPlayerService
 
+//TODO draft
 class PlayerInteractorImpl(private val context: Context): PlayerInteractor {
 
     private var serviceConnection = MediaPlayerServiceConnection()

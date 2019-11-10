@@ -8,15 +8,13 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 
+// TODO draft
 class NotificationBuilderImpl : NotificationBuilder {
 
     override fun build(context: Context): Notification {
         val channelId =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createNotificationChannel(context,
-                    CHANNEL_ID,
-                    CHANNEL_NAME
-                )
+                createNotificationChannel(context)
             } else {
                 EMPTY_CHANNEL_ID
             }
@@ -32,16 +30,16 @@ class NotificationBuilderImpl : NotificationBuilder {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun createNotificationChannel(context: Context, channelId: String, channelName: String): String {
+    private fun createNotificationChannel(context: Context): String {
         val chan = NotificationChannel(
-            channelId,
-            channelName, NotificationManager.IMPORTANCE_NONE
+            CHANNEL_ID,
+            CHANNEL_NAME, NotificationManager.IMPORTANCE_NONE
         )
         chan.lightColor = Color.BLUE
         chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
         val service = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         service.createNotificationChannel(chan)
-        return channelId
+        return CHANNEL_ID
     }
 
     companion object {
