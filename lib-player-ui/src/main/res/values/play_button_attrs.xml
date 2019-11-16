@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="PlayButton">
-        <attr name="state" format="enum">
-            <enum name="loading" value="0" />
-            <enum name="play" value="1" />
-            <enum name="stop" value="2" />
-        </attr>
+
+        <attr name="showLoadingAutomatically" format="boolean" /> <!-- should we start a progress bar automatically -->
+
+        <attr name="loadingDuration" format="integer" /> <!-- duration of loading period -->
+        <attr name="loadingWidth" format="dimension" /> <!-- width of loading progress bar -->
+
+        <attr name="loadingColor1" format="color" /> <!-- color of the first side of progress bar -->
+        <attr name="loadingColor2" format="color" /> <!-- color of the second side of progress bar -->
+
     </declare-styleable>
+
 </resources>

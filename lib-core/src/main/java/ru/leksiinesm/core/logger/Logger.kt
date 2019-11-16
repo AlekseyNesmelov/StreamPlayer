@@ -18,6 +18,13 @@ class Logger {
         }
 
         /**
+         * Send warning log message.
+         */
+        fun w(tag: String? = null, message: String? = null, throwable: Throwable? = null) {
+            Log.w(tag, message, throwable)
+        }
+
+        /**
          * Send error log message.
          */
         fun e(tag: String? = null, message: String? = null, throwable: Throwable? = null) {

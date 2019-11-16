@@ -9,7 +9,7 @@ import ru.leksiinesm.playerlib.IMediaService
 import ru.leksiinesm.playerlib.service.MediaPlayerService
 
 //TODO draft
-class PlayerInteractorImpl(private val context: Context): PlayerInteractor {
+class PlayerInteractorImpl(private val context: Context) : PlayerInteractor {
 
     private var serviceConnection = MediaPlayerServiceConnection()
     private var playerService: IMediaService? = null
@@ -23,6 +23,13 @@ class PlayerInteractorImpl(private val context: Context): PlayerInteractor {
                 context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
             }
         }
+    }
+
+    override fun isPlaying(): Boolean {
+        if (playerService == null) {
+            return false
+        }
+        return playerService!!.isPlaying
     }
 
     inner class MediaPlayerServiceConnection : ServiceConnection {
@@ -41,11 +48,15 @@ class PlayerInteractorImpl(private val context: Context): PlayerInteractor {
         if (playerService == null) {
             return
         }
-        if (playerService!!.isPlaying) {
-            playerService?.stop()
-            unbindService()
-        } else {
-            playerService?.start(COMEDY_RADIO_URL)
+        try {
+            if (playerService!!.isPlaying) {
+                playerService?.stop()
+                unbindService()
+            } else {
+                playerService?.start(COMEDY_RADIO_URL)
+            }
+        } catch (e: Exception) {
+            // TODO
         }
     }
 

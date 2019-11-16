@@ -11,4 +11,6 @@ import ru.leksiinesm.player.domain.PlayerInteractor
 class PlayerViewModel(private val interactor: PlayerInteractor) : BaseViewModel() {
 
     fun clickPlay() = interactor.clickPlay()
+
+    fun isPlaying() = interactor.isPlaying()
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,10 +9,24 @@
             type="ru.leksiinesm.player.presentation.PlayerViewModel" />
     </data>
 
-    <ru.leksiinesm.player.ui.widget.PlayButton
-        android:id="@+id/play_button"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="@{view -> viewModel.clickPlay()}"/>
+        android:layout_height="match_parent">
+
+        <ru.leksiinesm.player.ui.widget.PlayButton
+            android:id="@+id/play_button"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:onClick="@{view -> viewModel.clickPlay()}"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:loadingColor1="#333"
+            custom:loadingColor2="#666"
+            custom:loadingWidth="10dp"
+            custom:showLoadingAutomatically="true" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

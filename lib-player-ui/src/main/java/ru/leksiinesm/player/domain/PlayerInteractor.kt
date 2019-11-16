@@ -11,4 +11,6 @@ interface PlayerInteractor {
      * TODO split to start/stop
      */
     fun clickPlay()
+
+    fun isPlaying(): Boolean
 }
