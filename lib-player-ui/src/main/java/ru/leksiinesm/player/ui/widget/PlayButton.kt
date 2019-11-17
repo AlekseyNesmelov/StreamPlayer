@@ -28,11 +28,10 @@ class PlayButton @JvmOverloads constructor(
     attrs,
     defStyleAttr,
     defStyleRes
-), LoadingListener {
+) {
 
     private var isPlaying = false
 
-    private var showLoadingAutomatically = false
     private var loadingDuration = DEFAULT_PROGRESS_DURATION.toLong()
     private var loadingWidth = DEFAULT_PROGRESS_WIDTH
     private var loadingColor1 = Color.BLACK
@@ -57,7 +56,6 @@ class PlayButton @JvmOverloads constructor(
             0, 0
         ).apply {
             try {
-                showLoadingAutomatically = getBoolean(R.styleable.PlayButton_showLoadingAutomatically, false)
                 loadingDuration = getInteger(R.styleable.PlayButton_loadingDuration, DEFAULT_PROGRESS_DURATION).toLong()
                 loadingWidth =
                     getDimensionPixelSize(R.styleable.PlayButton_loadingWidth, DEFAULT_PROGRESS_WIDTH.toInt()).toFloat()
@@ -72,12 +70,12 @@ class PlayButton @JvmOverloads constructor(
         loadingPaint1.style = Paint.Style.STROKE
         loadingPaint1.color = loadingColor1
         loadingPaint1.strokeWidth = loadingWidth
-        loadingPaint1.isAntiAlias = true
+        loadingPaint1.strokeCap = Paint.Cap.ROUND
 
         loadingPaint2.style = Paint.Style.STROKE
         loadingPaint2.color = loadingColor2
         loadingPaint2.strokeWidth = loadingWidth
-        loadingPaint2.isAntiAlias = true
+        loadingPaint2.strokeCap = Paint.Cap.ROUND
 
         loadingAnimator.duration = loadingDuration
         loadingAnimator.repeatCount = ValueAnimator.INFINITE
@@ -87,27 +85,13 @@ class PlayButton @JvmOverloads constructor(
         }
     }
 
-    override fun onLoaded() {
-        if (showLoadingAutomatically) {
-            hideProgress()
-        } else {
-            throw IllegalStateException("Button is used as loading listener, but showLoadingAutomatically flag is false")
-        }
-    }
-
     override fun performClick(): Boolean {
         if (isPlaying) {
             setImageDrawable(iconStopToPlay)
             iconStopToPlay.start()
-            if (showLoadingAutomatically) {
-                hideProgress()
-            }
         } else {
             setImageDrawable(iconPlayToStop)
             iconPlayToStop.start()
-            if (showLoadingAutomatically) {
-                showProgress()
-            }
         }
         isPlaying = isPlaying.not()
         return super.performClick()
@@ -135,14 +119,13 @@ class PlayButton @JvmOverloads constructor(
         }
     }
 
-    fun showPlayIcon() {
-        setImageDrawable(iconPlayToStop)
-        isPlaying = false
-    }
-
-    fun showStopIcon() {
-        setImageDrawable(iconStopToPlay)
-        isPlaying = true
+    fun setPlaying(playing: Boolean) {
+        isPlaying = playing
+        if (isPlaying) {
+            setImageDrawable(iconStopToPlay)
+        } else {
+            setImageDrawable(iconPlayToStop)
+        }
     }
 
     /**
@@ -167,13 +150,6 @@ class PlayButton @JvmOverloads constructor(
         }
     }
 
-    /**
-     * Should we start a progress bar automatically on starting and hide it in [onLoaded] callback.
-     */
-    fun showLoadingAutomatically(value: Boolean) {
-        showLoadingAutomatically = value
-    }
-
     companion object {
         const val DELTA_ANGLE = 180f
         const val SWEEP_ANGLE = 100f
@@ -181,7 +157,7 @@ class PlayButton @JvmOverloads constructor(
         const val START_PROGRESS_ANGLE = 0f
         const val STOP_PROGRESS_ANGLE = 360f
 
-        const val DEFAULT_PROGRESS_DURATION = 3000
+        const val DEFAULT_PROGRESS_DURATION = 2000
         const val DEFAULT_PROGRESS_WIDTH = 30f
     }
 }

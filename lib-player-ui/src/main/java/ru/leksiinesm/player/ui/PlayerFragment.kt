@@ -14,15 +14,12 @@ import ru.leksiinesm.player.domain.PlayerInteractor
 import ru.leksiinesm.player.domain.PlayerInteractorImpl
 import ru.leksiinesm.player.presentation.PlayerViewModel
 import ru.leksiinesm.player.presentation.factory.PlayerViewModelFactory
-import ru.leksiinesm.player.ui.widget.PlayButton
 
 // TODO draft
 class PlayerFragment : Fragment() {
 
     private lateinit var interactor: PlayerInteractor
     private lateinit var playerViewModel: PlayerViewModel
-
-    private lateinit var playButton: PlayButton
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,15 +37,7 @@ class PlayerFragment : Fragment() {
         val binding: PlayerFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.player_fragment, container, false)
         binding.viewModel = playerViewModel
+        binding.lifecycleOwner = this@PlayerFragment
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        playButton = view.findViewById(R.id.play_button)
-        /*if (playerViewModel.isPlaying()) {
-            playButton.showStopIcon()
-        } else {
-            playButton.showPlayIcon()
-        }*/
     }
 }

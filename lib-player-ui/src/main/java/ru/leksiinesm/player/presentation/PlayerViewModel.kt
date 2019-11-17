@@ -1,5 +1,7 @@
 package ru.leksiinesm.player.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import ru.leksiinesm.core.viewmodel.BaseViewModel
 import ru.leksiinesm.player.domain.PlayerInteractor
 
@@ -10,7 +12,16 @@ import ru.leksiinesm.player.domain.PlayerInteractor
  */
 class PlayerViewModel(private val interactor: PlayerInteractor) : BaseViewModel() {
 
-    fun clickPlay() = interactor.clickPlay()
+    private val isPlayingMutable: MutableLiveData<Boolean> = MutableLiveData(interactor.isPlaying())
+    private val isLoadingMutable: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    fun isPlaying() = interactor.isPlaying()
+    fun clickPlay() {
+        interactor.clickPlay()
+        val cur = isLoadingMutable.value
+        isLoadingMutable.value = cur?.not()
+    }
+
+    fun isPlaying(): LiveData<Boolean> = isPlayingMutable
+
+    fun isLoading(): LiveData<Boolean> = isLoadingMutable
 }

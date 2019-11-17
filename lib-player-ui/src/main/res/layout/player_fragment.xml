@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -17,15 +18,17 @@
             android:id="@+id/play_button"
             android:layout_width="170dp"
             android:layout_height="170dp"
+            android:background="#aaa"
             android:onClick="@{view -> viewModel.clickPlay()}"
+            app:isLoading="@{viewModel.isLoading()}"
+            app:isPlaying="@{viewModel.isPlaying()}"
             custom:layout_constraintBottom_toBottomOf="parent"
             custom:layout_constraintEnd_toEndOf="parent"
             custom:layout_constraintStart_toStartOf="parent"
             custom:layout_constraintTop_toTopOf="parent"
             custom:loadingColor1="#333"
             custom:loadingColor2="#666"
-            custom:loadingWidth="10dp"
-            custom:showLoadingAutomatically="true" />
+            custom:loadingWidth="10dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,8 +3,6 @@
 
     <declare-styleable name="PlayButton">
 
-        <attr name="showLoadingAutomatically" format="boolean" /> <!-- should we start a progress bar automatically -->
-
         <attr name="loadingDuration" format="integer" /> <!-- duration of loading period -->
         <attr name="loadingWidth" format="dimension" /> <!-- width of loading progress bar -->
 
