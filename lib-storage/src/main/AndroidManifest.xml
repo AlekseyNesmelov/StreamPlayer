@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.lib_storage">
+    <application>
+        <provider
+            android:authorities="ru.leksiinesm.streamplayer"
+            android:name="ru.leksiinesm.storage.data.provider.PlayerContentProvider" />
+    </application>
+</manifest>

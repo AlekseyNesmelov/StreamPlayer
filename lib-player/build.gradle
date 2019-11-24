@@ -28,6 +28,7 @@ android {
 
 dependencies {
     implementation project(':lib-core')
+    implementation project(':lib-storage')
 
     implementation libs.exoPlayerCore
     implementation libs.exoPlayerStreaming

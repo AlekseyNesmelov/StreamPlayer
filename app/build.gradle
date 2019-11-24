@@ -32,12 +32,19 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     implementation project(':lib-core')
     implementation project(':lib-player')
     implementation project(':lib-player-ui')
+    implementation project(':lib-storage')
 
+    implementation libs.dagger
     implementation libs.material
+    kapt libs.daggerCompiler
 
     implementation androidx.constraint
 }

@@ -10,26 +10,39 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.lib_player_ui.R
 import com.example.lib_player_ui.databinding.PlayerFragmentBinding
-import ru.leksiinesm.player.domain.PlayerInteractor
-import ru.leksiinesm.player.domain.PlayerInteractorImpl
+import ru.leksiinesm.core.rx.schedullers.RxSchedulers
+import ru.leksiinesm.core.rx.schedullers.RxSchedulersImpl
+import ru.leksiinesm.player.domain.interactor.PlayerInteractor
+import ru.leksiinesm.player.domain.interactor.PlayerInteractorImpl
 import ru.leksiinesm.player.presentation.PlayerViewModel
 import ru.leksiinesm.player.presentation.factory.PlayerViewModelFactory
+import ru.leksiinesm.storage.data.storage.DataStorage
+import ru.leksiinesm.storage.data.storage.DataStorageImpl
 
-// TODO draft
+/**
+ * Fragment with play button
+ */
 class PlayerFragment : Fragment() {
 
+    private lateinit var storage: DataStorage
     private lateinit var interactor: PlayerInteractor
+    private lateinit var rxSchedulers: RxSchedulers
     private lateinit var playerViewModel: PlayerViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        storage = DataStorageImpl(context.applicationContext)
         interactor = PlayerInteractorImpl(context.applicationContext)
+        rxSchedulers = RxSchedulersImpl()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         playerViewModel = activity?.run {
-            ViewModelProviders.of(this, PlayerViewModelFactory(interactor))[PlayerViewModel::class.java]
+            ViewModelProviders.of(
+                this,
+                PlayerViewModelFactory(interactor, rxSchedulers, storage)
+            )[PlayerViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
     }
 

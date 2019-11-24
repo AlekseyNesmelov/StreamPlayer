@@ -1,8 +1,9 @@
-package ru.leksiinesm.streamplayer
+package ru.leksiinesm.streamplayer.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.leksiinesm.streamplayer.R
 
 /**
  * Main activity of the application.
