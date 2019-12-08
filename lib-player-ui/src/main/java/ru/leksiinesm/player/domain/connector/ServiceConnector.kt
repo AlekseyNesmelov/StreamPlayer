@@ -25,11 +25,14 @@ class ServiceConnector(private val context: Context) {
 
     @UiThread
     fun usePlayer(action: (IMediaService) -> Unit) {
+        val intent = Intent(context, MediaPlayerService::class.java).also {
+            context.startService(it)
+        }
         if (isBound) {
             action(playerService!!)
         } else {
             pendingAction = action
-            bindService()
+            bindService(intent)
         }
     }
 
@@ -41,7 +44,7 @@ class ServiceConnector(private val context: Context) {
         if (isBound) {
             postPlayingState()
         } else {
-            bindService()
+            bindService(Intent(context, MediaPlayerService::class.java))
         }
     }
 
@@ -49,13 +52,10 @@ class ServiceConnector(private val context: Context) {
     fun release() = unbindService()
 
     @UiThread
-    private fun bindService() {
+    private fun bindService(intent: Intent) {
         if (!isBound && !isBinding) {
             isBinding = true
-            Intent(context, MediaPlayerService::class.java).also { intent ->
-                context.startService(intent)
-                context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-            }
+            context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         }
     }
 

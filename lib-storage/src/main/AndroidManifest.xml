@@ -2,7 +2,7 @@
     package="com.example.lib_storage">
     <application>
         <provider
-            android:authorities="ru.leksiinesm.streamplayer"
+            android:authorities="ru.leksiinesm.storage.data.provider.PlayerContentProvider"
             android:name="ru.leksiinesm.storage.data.provider.PlayerContentProvider" />
     </application>
 </manifest>

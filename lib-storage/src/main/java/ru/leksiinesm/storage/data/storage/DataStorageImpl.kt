@@ -1,30 +1,54 @@
 package ru.leksiinesm.storage.data.storage
 
+import android.content.ContentValues
 import android.content.Context
-import android.content.Context.MODE_MULTI_PROCESS
-import android.content.SharedPreferences
+import android.database.Cursor
+import android.net.Uri
+import androidx.core.database.getStringOrNull
 import ru.leksiinesm.core.logger.Logger
+import ru.leksiinesm.storage.data.storage.room.contract.IS_LOADING_PROPERTY
+import ru.leksiinesm.storage.data.storage.room.contract.IS_PLAYING_PROPERTY
+import ru.leksiinesm.storage.data.storage.room.contract.PLAYER_DATA_PATH
+import ru.leksiinesm.storage.data.storage.room.contract.PLAYER_PROPERTY_NAME
+import ru.leksiinesm.storage.data.storage.room.contract.PLAYER_PROPERTY_VALUE
 
-class DataStorageImpl(private val context: Context) : DataStorage {
-
-    private val prefs: SharedPreferences by lazy { context.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS) }
+class DataStorageImpl(private val context: Context) : MutableDataStorage {
 
     override var isPlaying: Boolean
-        set(value) {
-            Logger.d(PREFS_NAME, "set IsPlaying $value")
-            prefs.edit()
-                .putBoolean(IS_PLAYING_KEY, value)
-                .apply()
+        set(value) = putProperty(IS_PLAYING_PROPERTY, value)
+        get() = getProperty(IS_PLAYING_PROPERTY)
+
+    override var isLoading: Boolean
+        set(value) = putProperty(IS_LOADING_PROPERTY, value)
+        get() = getProperty(IS_LOADING_PROPERTY)
+
+    private fun putProperty(property: String, value: Boolean) {
+        Logger.d(TAG, "set $property = $value")
+        val values = ContentValues().apply {
+            put(PLAYER_PROPERTY_NAME, property)
+            put(PLAYER_PROPERTY_VALUE, value)
         }
-        get() {
-            val value = prefs.getBoolean(IS_PLAYING_KEY, false)
-            Logger.d(PREFS_NAME, "get IsPlaying $value")
-            return value
+        context.contentResolver.insert(Uri.parse(PLAYER_DATA_PATH), values)
+    }
+
+    private fun getProperty(property: String): Boolean {
+        var value = false
+        var cursor: Cursor? = null
+        try {
+            cursor = context
+                .contentResolver
+                .query(Uri.parse("$PLAYER_DATA_PATH/$property"), null, null, null, null)
+            if (cursor?.moveToFirst() == true) {
+                value = cursor.getStringOrNull(1) == "1"
+            }
+        } finally {
+            cursor?.close()
         }
+        Logger.d(TAG, "get $property = $value")
+        return value
+    }
 
     companion object {
-        const val PREFS_NAME = "PlayerDataStorage"
-
-        const val IS_PLAYING_KEY = "IsPlayingKey"
+        const val TAG = "DataStorageImpl"
     }
 }

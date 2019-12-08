@@ -8,8 +8,8 @@ import ru.leksiinesm.playerlib.IMediaService;
 import ru.leksiinesm.playerlib.notification.NotificationBuilderImpl;
 import ru.leksiinesm.playerlib.player.StreamPlayer;
 import ru.leksiinesm.playerlib.player.StreamPlayerImpl;
-import ru.leksiinesm.storage.data.storage.DataStorage;
 import ru.leksiinesm.storage.data.storage.DataStorageImpl;
+import ru.leksiinesm.storage.data.storage.MutableDataStorage;
 
 /**
  * Service for music stream playing
@@ -19,7 +19,7 @@ public class MediaPlayerService extends Service {
 
     private static final int FOREGROUND_ID = 1222;
 
-    private final DataStorage dataStorage = new DataStorageImpl(this);
+    private final MutableDataStorage dataStorage = new DataStorageImpl(this);
     private final NotificationBuilderImpl notificationBuilder = new NotificationBuilderImpl();
     private final IMediaService.Stub binder = new IMediaService.Stub() {
 
@@ -34,8 +34,8 @@ public class MediaPlayerService extends Service {
         public synchronized void stop() {
             player.stop();
             started = false;
-            stopSelf();
             dataStorage.setPlaying(false);
+            stopForeground(true);
         }
 
         @Override
@@ -68,5 +68,6 @@ public class MediaPlayerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         player.release();
+        dataStorage.setPlaying(false);
     }
 }

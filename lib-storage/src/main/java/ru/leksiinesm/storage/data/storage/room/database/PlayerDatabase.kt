@@ -7,5 +7,5 @@ import ru.leksiinesm.storage.data.storage.room.entity.PlayerProperty
 
 @Database(entities = [PlayerProperty::class], version = 1)
 abstract class PlayerDatabase : RoomDatabase() {
-    abstract fun todoDao(): PlayerDao
+    abstract fun getDao(): PlayerDao
 }

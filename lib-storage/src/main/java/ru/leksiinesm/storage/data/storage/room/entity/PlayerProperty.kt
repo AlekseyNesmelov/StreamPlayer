@@ -14,5 +14,5 @@ class PlayerProperty(
     val propertyName: String,
 
     @ColumnInfo(name = PLAYER_PROPERTY_VALUE)
-    val propertyValue: String
+    val propertyValue: Boolean
 )
