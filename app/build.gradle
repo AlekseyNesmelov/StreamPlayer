@@ -41,6 +41,7 @@ dependencies {
     implementation project(':lib-player')
     implementation project(':lib-player-ui')
     implementation project(':lib-storage')
+    implementation project(':lib-notification')
 
     implementation libs.dagger
     implementation libs.material

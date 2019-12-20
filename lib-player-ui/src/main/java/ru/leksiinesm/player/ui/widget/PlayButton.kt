@@ -8,9 +8,9 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.ImageView
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.create
 import com.example.lib_player_ui.R
+import ru.leksiinesm.core.logger.Logger
 import kotlin.math.min
 
 /**
@@ -44,10 +44,8 @@ class PlayButton @JvmOverloads constructor(
     private var isLoadingStarted = false
     private var progress = 0f
 
-    private val iconPlayToStop: AnimatedVectorDrawableCompat =
-        create(context, R.drawable.play_to_stop_anim)!!
-    private val iconStopToPlay: AnimatedVectorDrawableCompat =
-        create(context, R.drawable.stop_to_play_anim)!!
+    private var iconPlayToStop = initPlayToStopAnim()
+    private var iconStopToPlay = initStopToPlayAnim()
 
     init {
         context.theme.obtainStyledAttributes(
@@ -87,9 +85,13 @@ class PlayButton @JvmOverloads constructor(
 
     override fun performClick(): Boolean {
         if (isPlaying) {
+            iconStopToPlay.stop()
+            iconStopToPlay = initStopToPlayAnim()
             setImageDrawable(iconStopToPlay)
             iconStopToPlay.start()
         } else {
+            iconPlayToStop.stop()
+            iconPlayToStop = initPlayToStopAnim()
             setImageDrawable(iconPlayToStop)
             iconPlayToStop.start()
         }
@@ -120,11 +122,20 @@ class PlayButton @JvmOverloads constructor(
     }
 
     fun setPlaying(playing: Boolean) {
+        Logger.d("PlayerButton", "setPlaying: $playing")
         isPlaying = playing
         if (isPlaying) {
-            setImageDrawable(iconStopToPlay)
+            if (!iconPlayToStop.isRunning) {
+                Logger.d("PlayerButton", "1")
+                iconStopToPlay = initStopToPlayAnim()
+                setImageDrawable(iconStopToPlay)
+            }
         } else {
-            setImageDrawable(iconPlayToStop)
+            if (!iconStopToPlay.isRunning) {
+                Logger.d("PlayerButton", "2")
+                iconPlayToStop = initPlayToStopAnim()
+                setImageDrawable(iconPlayToStop)
+            }
         }
     }
 
@@ -149,6 +160,10 @@ class PlayButton @JvmOverloads constructor(
             invalidate()
         }
     }
+
+    private fun initPlayToStopAnim() = create(context, R.drawable.play_to_stop_anim)!!
+
+    private fun initStopToPlayAnim() = create(context, R.drawable.stop_to_play_anim)!!
 
     companion object {
         const val DELTA_ANGLE = 180f

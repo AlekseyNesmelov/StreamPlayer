@@ -2,7 +2,6 @@ package ru.leksiinesm.player.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.leksiinesm.core.rx.schedullers.RxSchedulers
 import ru.leksiinesm.core.viewmodel.DisposableViewModel
 import ru.leksiinesm.player.domain.interactor.PlayerInteractor
 import ru.leksiinesm.storage.data.storage.DataStorage
@@ -14,7 +13,6 @@ import ru.leksiinesm.storage.data.storage.DataStorage
  */
 class PlayerViewModel(
     private val interactor: PlayerInteractor,
-    rxSchedulers: RxSchedulers,
     private val storage: DataStorage
 ) : DisposableViewModel() {
 
@@ -24,8 +22,10 @@ class PlayerViewModel(
     fun clickPlay() {
         if (storage.isPlaying) {
             interactor.stop()
+            isPlayingMutable.postValue(false)
         } else {
             interactor.play()
+            isPlayingMutable.postValue(true)
         }
     }
 

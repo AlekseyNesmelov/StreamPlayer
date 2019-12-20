@@ -1,1 +1,1 @@
-include ':app', ':lib-player', ':lib-core', ':lib-player-ui', ':lib-storage'
+include ':app', ':lib-player', ':lib-core', ':lib-player-ui', ':lib-storage', ':lib-notification'

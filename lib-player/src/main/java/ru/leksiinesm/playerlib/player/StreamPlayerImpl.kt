@@ -10,6 +10,8 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import ru.leksiinesm.storage.data.storage.DataStorageImpl
+import ru.leksiinesm.storage.data.storage.MutableDataStorage
 
 /**
  * Default implementation of [StreamPlayer].
@@ -19,6 +21,7 @@ import com.google.android.exoplayer2.util.Util
 // TODO: draft
 class StreamPlayerImpl @JvmOverloads constructor(
     private val context: Context,
+    private val playerDataStorage: MutableDataStorage = DataStorageImpl(context),
     private val exoPlayer: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context),
     private val dataSourceFactory: DefaultDataSourceFactory = DefaultDataSourceFactory(
         context,
@@ -26,6 +29,7 @@ class StreamPlayerImpl @JvmOverloads constructor(
     )
 ) : StreamPlayer {
     private var dataSource: String? = null
+    private val dataStorage: MutableDataStorage
 
     init {
         val audioAttributes = AudioAttributes.Builder()
@@ -33,6 +37,7 @@ class StreamPlayerImpl @JvmOverloads constructor(
             .setContentType(C.CONTENT_TYPE_MUSIC)
             .build()
         exoPlayer.setAudioAttributes(audioAttributes, true)
+        dataStorage = DataStorageImpl(context)
     }
 
     @Synchronized
@@ -41,6 +46,7 @@ class StreamPlayerImpl @JvmOverloads constructor(
         val mediaSource = createMediaSource()
         exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = true
+        playerDataStorage.isPlaying = true
     }
 
     @Synchronized
@@ -51,6 +57,7 @@ class StreamPlayerImpl @JvmOverloads constructor(
     @Synchronized
     override fun stop() {
         exoPlayer.stop()
+        playerDataStorage.isPlaying = false
     }
 
     @Synchronized

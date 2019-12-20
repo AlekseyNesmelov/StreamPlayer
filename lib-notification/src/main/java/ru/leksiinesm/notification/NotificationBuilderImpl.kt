@@ -1,4 +1,4 @@
-package ru.leksiinesm.playerlib.notification
+package ru.leksiinesm.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -6,12 +6,20 @@ import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import ru.leksiinesm.lib_notification.R
 
 // TODO draft
 class NotificationBuilderImpl : NotificationBuilder {
 
     override fun build(context: Context): Notification {
+        // Create an explicit intent for an Activity in your app
+        /* val intent = Intent(context, Ma::class.java).apply {
+             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+         }
+         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)*/
+
         val channelId =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 createNotificationChannel(context)
@@ -19,11 +27,17 @@ class NotificationBuilderImpl : NotificationBuilder {
                 EMPTY_CHANNEL_ID
             }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val expandedView = RemoteViews(context.packageName, R.layout.player_notificaton)
+            val collapsedView = RemoteViews(context.packageName, R.layout.player_notificaton)
             Notification.Builder(context, channelId)
+                .setCustomContentView(collapsedView)
+                .setCustomBigContentView(expandedView)
                 .setContentTitle("Comedy Radio")
                 .build()
         } else {
             Notification.Builder(context)
+                // .setCustomContentView(collapsedView)
+                //.setCustomBigContentView(expandedView)
                 .setContentTitle("Comedy Radio")
                 .build()
         }
